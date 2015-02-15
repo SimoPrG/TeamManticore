@@ -10,7 +10,9 @@ namespace Core
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hi my name is Morgan");
+            Console.BufferHeight = Console.WindowHeight = 30;
+            Console.BufferWidth = Console.WindowWidth = 100;
+            
         }
     }
 }
