@@ -1,7 +1,18 @@
-﻿using System;
+﻿/*General General RequirementsRequirementsRequirementsRequirementsRequirements
+Please define and implement the following assets in your project:
+ At least 1 multi-dimensional array
+ At least 3 one-dimensional arrays
+ At least 10 methods (separating the application’s logic)
+ At least 3 existing .NET classes (like System.Math or System.DateTime)
+ At least 2 exception handlings
+ At least 1 use of external text file
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FlappyManticore
@@ -154,7 +165,7 @@ namespace FlappyManticore
                     for (int i = 0; i < 5; i++)
                     {
                         for (int h = 0; h < Console.WindowHeight; h++)
-                        {
+{
                             DrawPoint(i, h, ' ', ConsoleColor.Black);
                         }
                     }
@@ -167,7 +178,7 @@ namespace FlappyManticore
         }
 
         private static void GenerateNewWall()
-        {
+    {
             var len = rnd.Next(5, 30);
 
             walls[walls.GetLength(0) - 1, 0] = Console.WindowWidth - wallWidth;
