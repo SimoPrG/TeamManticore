@@ -15,6 +15,7 @@ namespace FlappyManticore
 
         const int playerX = 5;
         static int playerY = Console.WindowHeight / 2;
+
         static int pastPlayerY = 0;
         static int velocity = 0;
 
