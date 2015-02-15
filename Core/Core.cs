@@ -11,6 +11,7 @@ namespace Core
         static void Main(string[] args)
         {
             Console.WriteLine("Test");
+            Console.WriteLine("Hello new game");
         }
     }
 }
