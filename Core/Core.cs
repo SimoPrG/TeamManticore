@@ -1,4 +1,4 @@
-﻿/*General General RequirementsRequirementsRequirementsRequirementsRequirements
+﻿/*General Requirements
 Please define and implement the following assets in your project:
  At least 1 multi-dimensional array
  At least 3 one-dimensional arrays
@@ -17,10 +17,10 @@ using System.Threading.Tasks;
 
 namespace FlappyManticore
 {
-    class Program
+    class Core
     {
         const int wallWidth = 5;
-        const int wallHole = 20;
+        const int wallHole = 15;
 
         static Random rnd = new Random();
 
@@ -30,12 +30,12 @@ namespace FlappyManticore
         static int pastPlayerY = 0;
         static int velocity = 0;
 
-        static int[,] walls = new int[4, 2];
+        static int[,] walls = new int[4, 2]; //matrix for the wall; the first col keeps the Y position of the wall; the second col keeps something random between [10, 35)
 
         static void Main()
         {
-            Console.WindowHeight = 50;
-            Console.WindowWidth = 120;
+            Console.WindowHeight = Console.BufferHeight = 50;
+            Console.WindowWidth = Console.BufferWidth = 120;
 
             CreateWalls();
 
@@ -107,15 +107,15 @@ namespace FlappyManticore
         {
             if (Console.KeyAvailable)
             {
-                ConsoleKeyInfo pressedKey = Console.ReadKey(true);
+                ConsoleKeyInfo pressedKey = Console.ReadKey(true);//
                 while (Console.KeyAvailable)
                 {
-                    Console.ReadKey(true);
+                    Console.ReadKey(true);//
                 }
 
                 if (pressedKey.Key == ConsoleKey.Spacebar)
                 {
-                    velocity = 5;
+                    velocity = 4;
                 }
             }
         }
@@ -165,7 +165,7 @@ namespace FlappyManticore
                     for (int i = 0; i < 5; i++)
                     {
                         for (int h = 0; h < Console.WindowHeight; h++)
-{
+                        {
                             DrawPoint(i, h, ' ', ConsoleColor.Black);
                         }
                     }
@@ -178,7 +178,7 @@ namespace FlappyManticore
         }
 
         private static void GenerateNewWall()
-    {
+        {
             var len = rnd.Next(5, 30);
 
             walls[walls.GetLength(0) - 1, 0] = Console.WindowWidth - wallWidth;
