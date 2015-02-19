@@ -10,34 +10,34 @@ namespace Core
     {
         class TelerikBird
         {
-            public char[][] bird = new char[4][];
-            public int birdX { get; set; }
-            public int birdY { get; set; }
-            bool isFlap { get; set; }
+            public char[][] array = new char[4][]; //this char array represents the bird.
+            public int coordX { get; set; } // the X coordinate of the bird.
+            public int coordY { get; set; } // the Y coordinate of the bird.
+            bool isFlap { get; set; } // this bool is used to make the bird to flap.
 
-            public TelerikBird()
+            public TelerikBird() //bird constructor
             {
-                bird[0] = @"\  /".ToCharArray();
-                bird[1] = @" \/ ".ToCharArray();
-                bird[2] = @" /\ ".ToCharArray();
-                bird[3] = @" \/ ".ToCharArray();
+                array[0] = @"\  /".ToCharArray();
+                array[1] = @" \/ ".ToCharArray();
+                array[2] = @" /\ ".ToCharArray();
+                array[3] = @" \/ ".ToCharArray();
                 isFlap = true;
-                birdX = 2;
-                birdY = Console.WindowHeight / 2;
+                coordX = 2;
+                coordY = Console.WindowHeight / 2;
             }
 
-            public void Flap()
+            public void Flap() //this method uses isFlap and makes the instance to flap
             {
                 if (isFlap)
                 {
-                    bird[0] = @"    ".ToCharArray();
-                    bird[1] = @"/\/\".ToCharArray();
+                    array[0] = @"    ".ToCharArray();
+                    array[1] = @"/\/\".ToCharArray();
                     isFlap = false;
                 }
                 else
                 {
-                    bird[0] = @"\  /".ToCharArray();
-                    bird[1] = @" \/ ".ToCharArray();
+                    array[0] = @"\  /".ToCharArray();
+                    array[1] = @" \/ ".ToCharArray();
                     isFlap = true;
                 }
             }
