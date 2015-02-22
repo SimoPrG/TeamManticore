@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core
+namespace FlappyManticore
 {
-    class TelerikBird
+    public class TelerikBird
     {
         public char[][] array = new char[4][]; //this char array represents the bird.
         string wingsTopStreight    = @"\  /";
