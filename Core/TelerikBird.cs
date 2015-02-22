@@ -1,35 +1,71 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FlappyManticore
 {
     public class TelerikBird
     {
+        public const int WIDTH = 4; //the width of the char array of the bird
+        public const int HEIGHT = 4; //the height of the char array of the bird
         public char[][] array = new char[4][]; //this char array represents the bird.
-        string wingsTopStreight    = @"\  /";
-        string wingsBottomStreight = @" \/ ";
-        string wingsTopFlap        = @"    ";
-        string wingsBottomFlap     = @"/\/\";
-        string bodyTop             = @" /\ ";
-        string bodyBottom          = @" \/ ";
-        public int coordX { get; set; } // the X coordinate of the bird.
-        public int coordY { get; set; } // the Y coordinate of the bird.
-        bool isFlap { get; set; } // this bool is used to make the bird to flap.
+        private string wingsTopStreight    = @"\  /";
+        private string wingsBottomStreight = @" \/ ";
+        private string wingsTopFlap        = @"    ";
+        private string wingsBottomFlap     = @"/\/\";
+        private string bodyTop             = @" /\ ";
+        private string bodyBottom          = @" \/ ";
 
-        public TelerikBird() //bird constructor
+        private int coordX;
+        public int CoordX // the X coordinate of the bird.
+        {
+            get
+            {
+                return this.coordX;
+            }
+            set
+            {
+                if (value >= 0)
+                {
+                    this.coordX = value;
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException("CoordX cannot be set to negative!");
+                }
+            }
+        }
+
+        private int coordY;
+        public int CoordY // the Y coordinate of the bird
+        {
+            get
+            {
+                return this.coordY;
+            }
+            set
+            {
+                if (value >= 0)
+                {
+                    this.coordY = value;
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException("CoordY cannot be set to negative!");
+                }
+            }
+        }
+
+        public TelerikBird(int xCoordinate, int yCoordinate) //bird constructor
         {
             array[0] = wingsTopStreight.ToCharArray();
             array[1] = wingsBottomStreight.ToCharArray();
             array[2] = bodyTop.ToCharArray();
             array[3] = bodyBottom.ToCharArray();
             isFlap = true;
-            coordX = 2;
-            coordY = Console.WindowHeight / 2;
+            CoordX = xCoordinate;
+            CoordY = yCoordinate;
         }
 
+        private bool isFlap; // this bool is used to make the bird to flap.
         public void Flap() //this method uses isFlap and makes the instance to flap
         {
             if (isFlap)
