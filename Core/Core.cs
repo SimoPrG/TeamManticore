@@ -15,17 +15,131 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using System.IO;
+
+
 namespace FlappyManticore
 {
     class Core
     {
+        static int score = 0;
+        static int currentSelection = 0;
+        private static string[] mainMenu = { "Play", "High Scores", "Exit" };
+        static string selector = "> ";
+        private static void PrintMenu(string[] menu)
+        {
+
+            for (int i = 0; i < menu.GetLength(0); i++)
+            {
+                if (currentSelection == i)
+                {
+                    Console.SetCursorPosition(Console.WindowWidth / 2 - menu[i].Length / 2 - selector.Length, Console.WindowHeight / 2 + 2 * i);
+                    Console.Write(selector + menu[i]);
+                }
+                else
+                {
+                    Console.SetCursorPosition(Console.WindowWidth / 2 - menu[i].Length / 2, Console.WindowHeight / 2 + 2 * i);
+                    Console.Write(menu[i]);
+                }
+            }
+        }
+        static void HandleInput()
+        {
+            if (Console.KeyAvailable)
+            {
+                ConsoleKeyInfo key = Console.ReadKey();
+
+                if (key.Key == ConsoleKey.UpArrow)
+                {
+                    currentSelection--;
+                }
+                else if (key.Key == ConsoleKey.DownArrow)
+                {
+                    currentSelection++;
+                }
+                else if (key.Key == ConsoleKey.Enter)
+                {
+                    CheckUserChoice();
+                }
+
+                if (currentSelection < 0)
+                {
+                    currentSelection = mainMenu.GetLength(0) - 1;
+                }
+                else if (currentSelection > mainMenu.GetLength(0) - 1)
+                {
+                    currentSelection = 0;
+                }
+            }
+        }
+        static void CheckUserChoice()
+        {
+
+            switch (currentSelection)
+            {
+                case 0:
+                    Console.Clear();
+                    CreateWalls();
+
+                    System.Threading.Thread.Sleep(1000);
+
+                    while (true)
+                    {
+                        ReadPlayerKeys();
+
+                        MovePlayer();
+
+                        MoveWalls();
+
+                        DrawGame();
+
+                        CheckForCollisions();
+
+                        System.Threading.Thread.Sleep(40);
+                    }
+                    break;
+
+                case 1:
+                    Console.Clear();
+                    Console.WriteLine("You selected High Scores!");
+
+                    string fileName = @"..\..\..\test.txt";
+                    StreamReader reader = new StreamReader(fileName);
+                    //using (StreamReader sr = new StreamReader(fileName))
+                    using(reader)
+                    {
+                        string line;
+                        // Read and display lines from the file until the end of  
+                        // the file is reached. 
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            Console.WriteLine(line);
+                        }
+                        reader.Close();
+                    }
+                    
+                    System.Threading.Thread.Sleep(99999);
+                    break;
+
+                case 2:
+                    Console.Clear();
+                    Console.WriteLine("You exited the game!");
+                    System.Threading.Thread.Sleep(99999);
+                    break;
+            }
+        }
+
+
+
+
+
+
+
+
         const int wallWidth = 5;
         const int wallHole = 15;
 
         static Random rnd = new Random();
-
-        static int height = Console.WindowHeight = Console.BufferHeight = 50;
-        static int width = Console.WindowWidth = Console.BufferWidth = 160;
 
         const int playerX = 5;
         static int playerY = Console.WindowHeight / 2;
@@ -36,7 +150,22 @@ namespace FlappyManticore
         static int[,] walls = new int[4, 2]; //matrix for the wall; the first col keeps the Y position of the wall; the second col keeps something random between [10, 35)
 
         static void Main()
-        {     
+        {
+            Console.WindowHeight = Console.BufferHeight = 50;
+            Console.WindowWidth = Console.BufferWidth = 120;
+
+
+            while (true)
+            {
+                PrintMenu(mainMenu);
+                HandleInput();
+                Thread.Sleep(150);
+                Console.Clear();
+            }
+
+
+
+
             CreateWalls();
 
             System.Threading.Thread.Sleep(1000);
@@ -81,6 +210,8 @@ namespace FlappyManticore
                 Console.SetCursorPosition(leftOffSet, topOffSet);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write("GAME OVER");
+                Console.WriteLine();
+                WriteInFile(score);
                 System.Threading.Thread.Sleep(10000000);
             }
 
@@ -92,6 +223,8 @@ namespace FlappyManticore
                 Console.SetCursorPosition(leftOffSet, topOffSet);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write("GAME OVER");
+                Console.WriteLine();
+                WriteInFile(score);
                 System.Threading.Thread.Sleep(10000000);
             }
 
@@ -121,9 +254,13 @@ namespace FlappyManticore
                     Console.ReadKey(true);//
                 }
 
-                if (pressedKey.Key == ConsoleKey.Spacebar)
+                if (pressedKey.Key == ConsoleKey.UpArrow)
                 {
-                    velocity = 4;
+                    velocity = 2;
+                }
+                if (pressedKey.Key == ConsoleKey.DownArrow)
+                {
+                    velocity = -2;
                 }
             }
         }
@@ -131,8 +268,8 @@ namespace FlappyManticore
         private static void MovePlayer()
         {
             pastPlayerY = playerY;
+            score += 5;//score
             playerY += (-1) * velocity;
-            velocity--;
         }
 
         private static void CheckForCollisions()
@@ -200,6 +337,29 @@ namespace FlappyManticore
             Console.ForegroundColor = color;
             Console.Write(symb);
             Console.ForegroundColor = pastColor;
+        }
+
+        static void WriteInFile(int score)
+        {
+            string scoreS = score.ToString();
+            Console.WriteLine();
+            Console.Write("Enter your name: ");
+            string name = Console.ReadLine();
+
+            StreamWriter writer = new StreamWriter(@"..\..\..\test.txt", true);
+            //using (writer)
+            //{
+                writer.WriteLine("{0}:{1}", score, name);
+                writer.Close();
+            //}
+            Console.WriteLine("File is written!");
+            //StreamReader 
+            //St
+            //var order = writer.Select(s => new { Str = s, Split = s.Split(':') })
+            //.OrderByDescending(x => int.Parse(x.Split[0]))
+            //.ThenBy(x => x.Split[1])
+            //.Select(x => x.Str)
+            //.ToList();
         }
     }
 }
