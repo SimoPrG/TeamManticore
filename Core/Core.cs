@@ -34,8 +34,8 @@ namespace FlappyManticore
 
         static void Main()
         {
-            Console.WindowHeight = Console.BufferHeight = 50;
-            Console.WindowWidth = Console.BufferWidth = 160;
+            Console.WindowHeight = Console.BufferHeight = 30;
+            Console.WindowWidth = Console.BufferWidth = 120;
 
             CreateWalls();
 
