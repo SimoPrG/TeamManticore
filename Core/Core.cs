@@ -121,9 +121,13 @@ namespace FlappyManticore
                     Console.ReadKey(true);//
                 }
 
-                if (pressedKey.Key == ConsoleKey.Spacebar)
+                if (pressedKey.Key == ConsoleKey.UpArrow)
                 {
-                    velocity = 4;
+                    velocity = 2;
+                }
+                if (pressedKey.Key == ConsoleKey.DownArrow)
+                {
+                    velocity = -2;
                 }
             }
         }
@@ -132,7 +136,6 @@ namespace FlappyManticore
         {
             pastPlayerY = playerY;
             playerY += (-1) * velocity;
-            velocity--;
         }
 
         private static void CheckForCollisions()
