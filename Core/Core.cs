@@ -102,23 +102,33 @@ namespace FlappyManticore
                 case 1:
                     Console.Clear();
                     Console.WriteLine("You selected High Scores!");
+           
 
-                    string fileName = @"..\..\..\test.txt";
-                    StreamReader reader = new StreamReader(fileName);
-                    //using (StreamReader sr = new StreamReader(fileName))
-                    using(reader)
+                    try
                     {
-                        string line;
-                        // Read and display lines from the file until the end of  
-                        // the file is reached. 
-                        while ((line = reader.ReadLine()) != null)
+                        string fileName = @"..\..\..\test.txt";
+                        StreamReader reader = new StreamReader(fileName);
+                        //using (StreamReader sr = new StreamReader(fileName))
+                        using (reader)
                         {
-                            Console.WriteLine(line);
+                            string line;
+                            // Read and display lines from the file until the end of  
+                            // the file is reached. 
+                            while ((line = reader.ReadLine()) != null)
+                            {
+                                Console.WriteLine(line);
+                            }
+                            reader.Close();
                         }
-                        reader.Close();
+
+                        System.Threading.Thread.Sleep(99999);
+                        break;
                     }
-                    
-                    System.Threading.Thread.Sleep(99999);
+                    catch(FileNotFoundException)
+                    {
+                        Console.WriteLine("There are no High Scores recorded!");
+                        System.Threading.Thread.Sleep(99999);
+                    }
                     break;
 
                 case 2:
@@ -346,7 +356,7 @@ namespace FlappyManticore
             Console.Write("Enter your name: ");
             string name = Console.ReadLine();
 
-            StreamWriter writer = new StreamWriter(@"..\..\..\test.txt", true);
+            StreamWriter writer = new StreamWriter(@"..\..\..\test.txt",true);
             //using (writer)
             //{
                 writer.WriteLine("{0}:{1}", score, name);
