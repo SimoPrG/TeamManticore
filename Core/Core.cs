@@ -102,23 +102,33 @@ namespace FlappyManticore
                 case 1:
                     Console.Clear();
                     Console.WriteLine("You selected High Scores!");
+           
 
-                    string fileName = @"..\..\..\test.txt";
-                    StreamReader reader = new StreamReader(fileName);
-                    //using (StreamReader sr = new StreamReader(fileName))
-                    using(reader)
+                    try
                     {
-                        string line;
-                        // Read and display lines from the file until the end of  
-                        // the file is reached. 
-                        while ((line = reader.ReadLine()) != null)
+                        string fileName = @"..\..\..\test.txt";
+                        StreamReader reader = new StreamReader(fileName);
+                        //using (StreamReader sr = new StreamReader(fileName))
+                        using (reader)
                         {
-                            Console.WriteLine(line);
+                            string line;
+                            // Read and display lines from the file until the end of  
+                            // the file is reached. 
+                            while ((line = reader.ReadLine()) != null)
+                            {
+                                Console.WriteLine(line);
+                            }
+                            reader.Close();
                         }
-                        reader.Close();
+
+                        System.Threading.Thread.Sleep(99999);
+                        break;
                     }
-                    
-                    System.Threading.Thread.Sleep(99999);
+                    catch(FileNotFoundException)
+                    {
+                        Console.WriteLine("There are no High Scores recorded!");
+                        System.Threading.Thread.Sleep(99999);
+                    }
                     break;
 
                 case 2:
@@ -129,13 +139,17 @@ namespace FlappyManticore
             }
         }
 
+
+
+
+
+
+
+
         const int wallWidth = 5;
-        const int wallHole = 15;
+        const int wallHole = 20;
 
         static Random rnd = new Random();
-
-        static int height = Console.WindowHeight = Console.BufferHeight = 50;
-        static int width = Console.WindowWidth = Console.BufferWidth = 160;
 
         const int playerX = 5;
         static int playerY = Console.WindowHeight / 2;
@@ -147,8 +161,25 @@ namespace FlappyManticore
 
         static void Main()
         {
+<<<<<<< HEAD
+            Console.WindowHeight = Console.BufferHeight = 30;
+            Console.WindowWidth = Console.BufferWidth = 120;
+=======
             Console.WindowHeight = Console.BufferHeight = 50;
-            Console.WindowWidth = Console.BufferWidth = 160;
+            Console.WindowWidth = Console.BufferWidth = 120;
+
+
+            while (true)
+            {
+                PrintMenu(mainMenu);
+                HandleInput();
+                Thread.Sleep(150);
+                Console.Clear();
+            }
+
+
+
+>>>>>>> f8ec8cfc2e85e22f5eb42ea6614345f2072a74d0
 
             CreateWalls();
 
@@ -330,7 +361,7 @@ namespace FlappyManticore
             Console.Write("Enter your name: ");
             string name = Console.ReadLine();
 
-            StreamWriter writer = new StreamWriter(@"..\..\..\test.txt", true);
+            StreamWriter writer = new StreamWriter(@"..\..\..\test.txt",true);
             //using (writer)
             //{
                 writer.WriteLine("{0}:{1}", score, name);
