@@ -26,6 +26,7 @@ namespace FlappyManticore
         static int currentSelection = 0;
         private static string[] mainMenu = { "Play", "High Scores", "Exit" };
         static string selector = "> ";
+
         private static void PrintMenu(string[] menu)
         {
 
@@ -78,10 +79,9 @@ namespace FlappyManticore
             switch (currentSelection)
             {
                 case 0:
-                    Console.Clear();
                     CreateWalls();
 
-                    System.Threading.Thread.Sleep(1000);
+                    //System.Threading.Thread.Sleep(1000);
 
                     while (true)
                     {
@@ -89,20 +89,22 @@ namespace FlappyManticore
 
                         MovePlayer();
 
-                        MoveWalls();
+                        //MoveWalls();
+
+                        //CheckForCollisions();
 
                         DrawGame();
 
-                        CheckForCollisions();
-
-                        System.Threading.Thread.Sleep(40);
+                        System.Threading.Thread.Sleep(200);
+                        Console.Clear();
                     }
+
                     break;
 
                 case 1:
                     Console.Clear();
                     Console.WriteLine("You selected High Scores!");
-           
+
 
                     try
                     {
@@ -124,7 +126,7 @@ namespace FlappyManticore
                         System.Threading.Thread.Sleep(99999);
                         break;
                     }
-                    catch(FileNotFoundException)
+                    catch (FileNotFoundException)
                     {
                         Console.WriteLine("There are no High Scores recorded!");
                         System.Threading.Thread.Sleep(99999);
@@ -145,9 +147,6 @@ namespace FlappyManticore
 
 
 
-
-        const int wallWidth = 5;
-        const int wallHole = 20;
         static Random rnd = new Random();
 
         const int playerX = 5;
@@ -157,7 +156,7 @@ namespace FlappyManticore
         static int velocity = 0;
 
         static int numberOfWals = 4;
-        const int wallWidth = 5;
+        static int wallWidth = 5;
         static int[,] wallsYAxis = new int[numberOfWals, 2];
         static int[] wallsXAxis = new int[numberOfWals];
 
@@ -165,38 +164,20 @@ namespace FlappyManticore
 
         static void Main()
         {
-            Console.WindowHeight = Console.BufferHeight = 30;
+            Console.WindowHeight = 50;
+            Console.BufferHeight = 50;
             Console.WindowWidth = Console.BufferWidth = 120;
-            int gameHighth = Console.WindowHeight;
+
+            int gameHighth = Console.WindowHeight - 1;
             int gameWidth = Console.WindowWidth - 1;
 
             gameField = new char[gameHighth, gameWidth];
-			
+
             while (true)
             {
                 PrintMenu(mainMenu);
                 HandleInput();
                 Thread.Sleep(150);
-                Console.Clear();
-            }
-
-            CreateWalls();
-
-            //System.Threading.Thread.Sleep(1000);
-
-            while (true)
-            {
-                ReadPlayerKeys();
-
-                //MovePlayer();
-
-                //MoveWalls();
-
-                //CheckForCollisions();
-
-                DrawGame();
-
-                System.Threading.Thread.Sleep(200);
                 Console.Clear();
             }
         }
@@ -206,7 +187,7 @@ namespace FlappyManticore
             //generate pairs of Y coordinates for a pair of walls
             for (int i = 0; i < numberOfWals; i++)
             {
-                int upperWallYAxis = rnd.Next(0, Console.WindowHeight - 6/* TODO: use constant bird hight*/); 
+                int upperWallYAxis = rnd.Next(0, Console.WindowHeight - 6/* TODO: use constant bird hight*/);
                 int bottomWallYAxis = rnd.Next(upperWallYAxis + 6, Console.WindowHeight);
 
                 wallsYAxis[i, 0] = upperWallYAxis;
@@ -226,37 +207,6 @@ namespace FlappyManticore
         private static void DrawGame()
         {
             StringBuilder builder = new StringBuilder();
-
-            //DrawPoint(playerX, pastPlayerY, ' ', ConsoleColor.Black);
-            try
-            {
-                DrawPoint(playerX, playerY, '*', ConsoleColor.Magenta);
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                Console.Clear();
-                int leftOffSet = (Console.WindowWidth / 2 - 3);  // Sest the position of the cursor, so that the text "GAME OVER" is centered at the screen of the console. The text is colored red.
-                int topOffSet = (Console.WindowHeight / 2 - 2);
-                Console.SetCursorPosition(leftOffSet, topOffSet);
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("GAME OVER");
-                Console.WriteLine();
-                WriteInFile(score);
-                System.Threading.Thread.Sleep(10000000);
-            }
-
-            if (playerY > Console.WindowHeight)
-            {
-                Console.Clear();
-                int leftOffSet = (Console.WindowWidth / 2 - 3); // Set the position of the cursor, so that the text "GAME OVER" is centered at the screen of the console. The text is colored red.
-                int topOffSet = (Console.WindowHeight / 2 - 2);
-                Console.SetCursorPosition(leftOffSet, topOffSet);
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("GAME OVER");
-                Console.WriteLine();
-                WriteInFile(score);
-                System.Threading.Thread.Sleep(10000000);
-            }
 
             //put the walls on the gamefield
             for (int i = 0; i < wallsXAxis.Length; i++)
@@ -360,11 +310,11 @@ namespace FlappyManticore
             Console.Write("Enter your name: ");
             string name = Console.ReadLine();
 
-            StreamWriter writer = new StreamWriter(@"..\..\..\test.txt",true);
+            StreamWriter writer = new StreamWriter(@"..\..\..\test.txt", true);
             //using (writer)
             //{
-                writer.WriteLine("{0}:{1}", score, name);
-                writer.Close();
+            writer.WriteLine("{0}:{1}", score, name);
+            writer.Close();
             //}
             Console.WriteLine("File is written!");
             //StreamReader 
