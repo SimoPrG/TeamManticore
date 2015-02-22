@@ -24,6 +24,9 @@ namespace FlappyManticore
 
         static Random rnd = new Random();
 
+        static int height = Console.WindowHeight = Console.BufferHeight = 50;
+        static int width = Console.WindowWidth = Console.BufferWidth = 160;
+
         const int playerX = 5;
         static int playerY = Console.WindowHeight / 2;
 
@@ -33,10 +36,7 @@ namespace FlappyManticore
         static int[,] walls = new int[4, 2]; //matrix for the wall; the first col keeps the Y position of the wall; the second col keeps something random between [10, 35)
 
         static void Main()
-        {
-            Console.WindowHeight = Console.BufferHeight = 50;
-            Console.WindowWidth = Console.BufferWidth = 160;
-
+        {     
             CreateWalls();
 
             System.Threading.Thread.Sleep(1000);
