@@ -129,17 +129,13 @@ namespace FlappyManticore
             }
         }
 
-
-
-
-
-
-
-
         const int wallWidth = 5;
         const int wallHole = 15;
 
         static Random rnd = new Random();
+
+        static int height = Console.WindowHeight = Console.BufferHeight = 50;
+        static int width = Console.WindowWidth = Console.BufferWidth = 160;
 
         const int playerX = 5;
         static int playerY = Console.WindowHeight / 2;
@@ -152,19 +148,7 @@ namespace FlappyManticore
         static void Main()
         {
             Console.WindowHeight = Console.BufferHeight = 50;
-            Console.WindowWidth = Console.BufferWidth = 120;
-
-
-            while (true)
-            {
-                PrintMenu(mainMenu);
-                HandleInput();
-                Thread.Sleep(150);
-                Console.Clear();
-            }
-
-
-
+            Console.WindowWidth = Console.BufferWidth = 160;
 
             CreateWalls();
 
