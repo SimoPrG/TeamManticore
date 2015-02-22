@@ -76,7 +76,7 @@ namespace FlappyManticore
             catch (ArgumentOutOfRangeException ex)
             {
                 Console.Clear();
-                int leftOffSet = (Console.WindowWidth / 2-3);  // Set the postion of the cursor, so that the text "GAME OVER" is centered at the screen of the console. The text is coloured red.
+                int leftOffSet = (Console.WindowWidth / 2-3);  // Sest the position of the cursor, so that the text "GAME OVER" is centered at the screen of the console. The text is colored red.
                 int topOffSet = (Console.WindowHeight / 2-2);
                 Console.SetCursorPosition(leftOffSet, topOffSet);
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -87,7 +87,7 @@ namespace FlappyManticore
             if (playerY > Console.WindowHeight)
             {
                 Console.Clear();
-                int leftOffSet = (Console.WindowWidth / 2 - 3); // Set the postion of the cursor, so that the text "GAME OVER" is centered at the screen of the console. The text is coloured red.
+                int leftOffSet = (Console.WindowWidth / 2 - 3); // Set the position of the cursor, so that the text "GAME OVER" is centered at the screen of the console. The text is colored red.
                 int topOffSet = (Console.WindowHeight / 2 - 2);
                 Console.SetCursorPosition(leftOffSet, topOffSet);
                 Console.ForegroundColor = ConsoleColor.Red;
