@@ -34,7 +34,7 @@ namespace FlappyManticore
 
         static void Main()
         {
-            Console.WindowHeight = 50;
+            Console.WindowHeight = 35;
             Console.WindowWidth = 120;
 
             CreateWalls();
@@ -165,7 +165,7 @@ namespace FlappyManticore
                     for (int i = 0; i < 5; i++)
                     {
                         for (int h = 0; h < Console.WindowHeight; h++)
-{
+                        {
                             DrawPoint(i, h, ' ', ConsoleColor.Black);
                         }
                     }
@@ -178,7 +178,7 @@ namespace FlappyManticore
         }
 
         private static void GenerateNewWall()
-    {
+        {
             var len = rnd.Next(5, 30);
 
             walls[walls.GetLength(0) - 1, 0] = Console.WindowWidth - wallWidth;
@@ -195,3 +195,4 @@ namespace FlappyManticore
         }
     }
 }
+
