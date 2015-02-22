@@ -19,56 +19,78 @@ namespace FlappyManticore
 {
     class Core
     {
-        const int wallWidth = 5;
-        const int wallHole = 15;
-
         static Random rnd = new Random();
 
         const int playerX = 5;
         static int playerY = Console.WindowHeight / 2;
-
         static int pastPlayerY = 0;
+
         static int velocity = 0;
 
-        static int[,] walls = new int[4, 2]; //matrix for the wall; the first col keeps the Y position of the wall; the second col keeps something random between [10, 35)
+        static int numberOfWals = 4;
+        const int wallWidth = 5;
+        static int[,] wallsYAxis = new int[numberOfWals, 2];
+        static int[] wallsXAxis = new int[numberOfWals];
+
+        static char[,] gameField;
 
         static void Main()
         {
             Console.WindowHeight = Console.BufferHeight = 50;
-            Console.WindowWidth = Console.BufferWidth = 160;
+            Console.WindowWidth = Console.BufferWidth = 120;
+            int gameHighth = Console.WindowHeight;
+            int gameWidth = Console.WindowWidth - 1;
+
+            gameField = new char[gameHighth, gameWidth];
 
             CreateWalls();
 
-            System.Threading.Thread.Sleep(1000);
+            //System.Threading.Thread.Sleep(1000);
 
             while (true)
             {
                 ReadPlayerKeys();
 
-                MovePlayer();
+                //MovePlayer();
 
-                MoveWalls();
+                //MoveWalls();
+
+                //CheckForCollisions();
 
                 DrawGame();
 
-                CheckForCollisions();
-
-                System.Threading.Thread.Sleep(40);
+                System.Threading.Thread.Sleep(200);
+                Console.Clear();
             }
         }
 
         private static void CreateWalls()
         {
-            for (int i = 0; i < walls.GetLength(0); i++)
+            //generate pairs of Y coordinates for a pair of walls
+            for (int i = 0; i < numberOfWals; i++)
             {
-                walls[i, 0] = 40 + i * 25;
-                walls[i, 1] = 5 + rnd.Next(5, 30);
+                int upperWallYAxis = rnd.Next(0, Console.WindowHeight - 6/* TODO: use constant bird hight*/); 
+                int bottomWallYAxis = rnd.Next(upperWallYAxis + 6, Console.WindowHeight);
+
+                wallsYAxis[i, 0] = upperWallYAxis;
+                wallsYAxis[i, 1] = bottomWallYAxis;
+            }
+
+            //generate the starting x positions for the wall pairs 
+            int currenXSector = 0;
+            for (int i = 0; i < numberOfWals; i++)
+            {
+                int startingXPosiotion = rnd.Next(currenXSector, currenXSector + Console.WindowWidth / numberOfWals);
+                wallsXAxis[i] = startingXPosiotion;
+                currenXSector += Console.WindowWidth / numberOfWals;
             }
         }
 
         private static void DrawGame()
         {
-            DrawPoint(playerX, pastPlayerY, ' ', ConsoleColor.Black);
+            StringBuilder builder = new StringBuilder();
+
+            //DrawPoint(playerX, pastPlayerY, ' ', ConsoleColor.Black);
             try
             {
                 DrawPoint(playerX, playerY, '*', ConsoleColor.Magenta);
@@ -76,8 +98,8 @@ namespace FlappyManticore
             catch (ArgumentOutOfRangeException ex)
             {
                 Console.Clear();
-                int leftOffSet = (Console.WindowWidth / 2-3);  // Sest the position of the cursor, so that the text "GAME OVER" is centered at the screen of the console. The text is colored red.
-                int topOffSet = (Console.WindowHeight / 2-2);
+                int leftOffSet = (Console.WindowWidth / 2 - 3);  // Sest the position of the cursor, so that the text "GAME OVER" is centered at the screen of the console. The text is colored red.
+                int topOffSet = (Console.WindowHeight / 2 - 2);
                 Console.SetCursorPosition(leftOffSet, topOffSet);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write("GAME OVER");
@@ -95,17 +117,58 @@ namespace FlappyManticore
                 System.Threading.Thread.Sleep(10000000);
             }
 
-            for (int i = 0; i < walls.GetLength(0); i++)
+            //put the walls on the gamefield
+            for (int i = 0; i < wallsXAxis.Length; i++)
             {
-                var wallXToDraw = walls[i, 0];
-                var wallHoleToDraw = walls[i, 1];
+                //Left bottom point of upper wall
+                int yUpper = wallsYAxis[i, 0];
+                //Left upper point of bottom wall
+                int yBottom = wallsYAxis[i, 1];
 
-                for (int height = 0; height < Console.WindowHeight; height++)
+                int xWall = wallsXAxis[i];
+                char wallSymbol = 'U';
+
+                DrawWallOnGameField("upper", wallSymbol, yUpper, xWall);
+                DrawWallOnGameField("bottom", wallSymbol, yBottom, xWall);
+            }
+
+            //fill the builder
+            for (int i = 0; i < gameField.GetLength(0); i++)
+            {
+                for (int j = 0; j < gameField.GetLength(1); j++)
                 {
-                    if (height < wallHoleToDraw || wallHoleToDraw + wallHole < height)
+                    builder.Append(gameField[i, j]);
+                }
+                builder.AppendLine();
+            }
+
+            Console.Write(builder);
+            builder.Clear();
+        }
+
+        private static void DrawWallOnGameField(string upperBottom, char fillingSighn, int startPointRow, int startPointCol)
+        {
+            //do not try to draw column outside the right end of the gamefield
+            int maxWidth = Math.Min((startPointCol + wallWidth), gameField.GetLength(1));
+
+            //drow upper wall
+            if (upperBottom == "upper")
+            {
+                for (int i = 0; i <= startPointRow; i++)
+                {
+                    for (int j = startPointCol; j < maxWidth; j++)
                     {
-                        DrawPoint(wallXToDraw, height, '-');
-                        DrawPoint(wallXToDraw + 4, height, ' ', ConsoleColor.Black);
+                        gameField[i, j] = fillingSighn;
+                    }
+                }
+            }
+            else //bottom
+            {
+                for (int i = startPointRow; i < gameField.GetLength(0); i++)
+                {
+                    for (int j = startPointCol; j < maxWidth; j++)
+                    {
+                        gameField[i, j] = fillingSighn;
                     }
                 }
             }
@@ -135,71 +198,14 @@ namespace FlappyManticore
             velocity--;
         }
 
-        private static void CheckForCollisions()
-        {
-            var firstWallX = walls[0, 0];
-            var firstWallHole = walls[0, 1];
-
-            if (firstWallX <= playerX)
-            {
-                if (playerY < firstWallHole || firstWallHole + wallHole < playerY)
-                {
-                    Console.Beep();
-                    Console.Beep();
-                    Console.Beep();
-                    Console.Beep();
-                    Console.Beep();
-                    Console.Beep();
-                    System.Threading.Thread.Sleep(3000);
-                }
-            }
-        }
-
         private static void MoveWalls()
         {
-            for (int row = 0; row < walls.GetLength(0); row++)
-            {
-                walls[row, 0]--;
-                if (walls[row, 0] == 0)
-                {
-                    for (int i = 0; i < walls.GetLength(0) - 1; i++)
-                    {
-                        for (int col = 0; col < walls.GetLength(1); col++)
-                        {
-                            walls[i, col] = walls[i + 1, col];
-                        }
-                    }
-
-                    for (int i = 0; i < 5; i++)
-                    {
-                        for (int h = 0; h < Console.WindowHeight; h++)
-                        {
-                            DrawPoint(i, h, ' ', ConsoleColor.Black);
-                        }
-                    }
-
-                    DrawPoint(playerX, playerY, '*', ConsoleColor.Magenta);
-
-                    GenerateNewWall();
-                }
-            }
+            throw new NotImplementedException();
         }
 
         private static void GenerateNewWall()
         {
-            var len = rnd.Next(5, 30);
-
-            walls[walls.GetLength(0) - 1, 0] = Console.WindowWidth - wallWidth;
-            walls[walls.GetLength(0) - 1, 1] = len;
-        }
-
-        static void DrawPoint(int x, int y, char symb, ConsoleColor color = ConsoleColor.White)
-        {
-            Console.SetCursorPosition(x, y);
-            var pastColor = Console.ForegroundColor;
-            Console.ForegroundColor = color;
-            Console.Write(symb);
-            Console.ForegroundColor = pastColor;
+            throw new NotImplementedException();
         }
     }
 }
