@@ -14,8 +14,8 @@ namespace FlappyManticore
         private string bodyTop             = @" /\ ";
         private string bodyBottom          = @" \/ ";
 
-        private int coordX;
-        public int CoordX // the X coordinate of the bird.
+        private int coordX; // the X coordinate of the bird field
+        public int CoordX // the X coordinate of the bird property
         {
             get
             {
@@ -34,8 +34,8 @@ namespace FlappyManticore
             }
         }
 
-        private int coordY;
-        public int CoordY // the Y coordinate of the bird
+        private int coordY; // the Y coordinate of the bird field
+        public int CoordY // the Y coordinate of the bird property
         {
             get
             {
