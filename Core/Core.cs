@@ -20,7 +20,7 @@ namespace FlappyManticore
     class Core
     {
         const int wallWidth = 5;
-        const int wallHole = 15;
+        const int wallHole = 20;
 
         static Random rnd = new Random();
 
