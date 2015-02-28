@@ -123,7 +123,7 @@ namespace FlappyManticore
                             reader.Close();
                         }
 
-                        System.Threading.Thread.Sleep(99999);
+                        Console.ReadKey();
                         break;
                     }
                     catch (FileNotFoundException)
