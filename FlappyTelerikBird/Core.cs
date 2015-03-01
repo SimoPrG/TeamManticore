@@ -190,15 +190,13 @@ namespace FlappyTelerikBird
                 {
                     if (bird.array[row][col] != ' ') // if we have ' ' in the matrix we must not print it
                     {
-                        if (bird.CoordX >= 0 && bird.CoordX <= (DISPLAYWIDTH - TelerikBird.WIDTH) &&
-                            bird.CoordY >= 0 && bird.CoordY <= (DISPLAYHEIGHT - TelerikBird.HEIGHT) &&
-                            !IsSmashed(display[(row + bird.CoordY) * DISPLAYWIDTH + (col + bird.CoordX)])) //we didn't crash
-                        {
-                            display[(row + bird.CoordY) * DISPLAYWIDTH + (col + bird.CoordX)] = bird.array[row][col];
-                        }
-                        else // we crashed
+                        if (IsBirdSmashed(row, col)) // the bird crashes
                         {
                             //TODO: Implement Crash method
+                        }
+                        else // the bird didn't crash
+                        {
+                            display[(row + bird.CoordY) * DISPLAYWIDTH + (col + bird.CoordX)] = bird.array[row][col];
                         }
                     }
                 }
@@ -206,9 +204,11 @@ namespace FlappyTelerikBird
         }
 
         // This method checks if some part of the bird has hit something
-        private static bool IsSmashed(char symbol)
+        private static bool IsBirdSmashed(int row, int col)
         {
-            if (symbol == ' ')
+            if (bird.CoordX >= 0 && bird.CoordX <= (DISPLAYWIDTH - TelerikBird.WIDTH) &&
+                bird.CoordY >= 0 && bird.CoordY <= (DISPLAYHEIGHT - TelerikBird.HEIGHT) &&
+                display[(row + bird.CoordY) * DISPLAYWIDTH + (col + bird.CoordX)] == ' ')
             {
                 return false;
             }
