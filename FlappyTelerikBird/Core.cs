@@ -37,22 +37,19 @@ namespace FlappyTelerikBird
 
             while (true)
             {
-                bird.ResurrectBird();
+                bird.Resurrect();
 
                 choice = PrintMainMenu(choice);
 
                 if (choice == 0) // Play
                 {
-                    int difficulty = 30; // the smaller the harder
-
-                    Play(difficulty);
-                   
+                    long score = Play();
+                    //TODO: use score to write in highscores
                 }
                 else if (choice == 1) // High Scores
                 {
                     //TODO: Implement - there is a class HighScores for the purpose
                     string highScoresFile = @"HighScores.txt";
-                    //TODO: Implement - there is a class HighScores for the purpose
                     try
                     {
                         HighScores.PrintHighScores(highScoresFile);
@@ -72,11 +69,13 @@ namespace FlappyTelerikBird
             }
         }
 
-        private static void Play(int difficulty)
+        private static long Play()
         {
+            int difficulty = 30; // represents the distance between the columns
+            int columnTimer = 0; // this timer decreeses at each iteration. at zero it is set to difficulty and a new column apears
+            long score = 0;
             List<Column> columns = new List<Column>();
             Random generator = new Random();
-            int columnTimer = 0; // this timer decreeses at each iteration. at zero it is set to difficulty and a new column apears
 
             while (true)
             {
@@ -96,16 +95,22 @@ namespace FlappyTelerikBird
                     if (columns[i].CoordX <= 0)
                     {
                         columns.RemoveAt(i);
+                        score += 100;
                     }
                     columns[i].CoordX--;
                     WriteObjectInDisplay(columns[i].array, columns[i].Hight, columns[i].Width, columns[i].CoordX, columns[i].CoordY);
                 }
 
+                score++;
+                char[][] scored = new char[1][];
+                scored[0] = string.Format("Score: {0}", score).ToCharArray();
+                WriteObjectInDisplay(scored, 1, scored[0].Length, 0, DISPLAYHEIGHT - 1);
+
                 bird.Flap();
                 WriteBirdInDisplay();
                 if (bird.IsAlive == false)
                 {
-                    return;
+                    return score;
                 }
                 Console.Write(display);
 
@@ -198,7 +203,7 @@ namespace FlappyTelerikBird
                     {
                         if (IsBirdSmashed(row, col)) // the bird crashes
                         {
-                            bird.KillBird();
+                            bird.Kill();
                         }
                         else // the bird didn't crash
                         {

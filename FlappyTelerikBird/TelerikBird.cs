@@ -70,12 +70,12 @@
             }
         }
 
-        public void KillBird()
+        public void Kill()
         {
             IsAlive = false;
         }
 
-        public void ResurrectBird()
+        public void Resurrect()
         {
             CoordX = Core.DISPLAYWIDTH / 12;
             CoordY = (Core.DISPLAYHEIGHT - HEIGHT) / 2 - 1;

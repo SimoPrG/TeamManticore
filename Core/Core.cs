@@ -191,7 +191,7 @@ namespace FlappyTelerikBird
             //generate pairs of Y coordinates for a pair of walls
             for (int i = 0; i < numberOfWals; i++)
             {
-                int upperWallYAxis = rnd.Next(0, Console.WindowHeight - 6/* TODO: use constant bird hight*/);
+                int upperWallYAxis = rnd.Next(0, Console.WindowHeight - 6);
                 int bottomWallYAxis = rnd.Next(upperWallYAxis + 6, Console.WindowHeight);
 
                 wallsYAxis[i, 0] = upperWallYAxis;
