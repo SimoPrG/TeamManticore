@@ -62,9 +62,8 @@ namespace FlappyTelerikBird
                         Console.Clear();
                         Console.SetCursorPosition(DISPLAYWIDTH / 3, DISPLAYHEIGHT / 5);
                         Console.WriteLine("There are no High Scores recorded!");
-                        //System.Threading.Thread.Sleep(99999);
-                        return;
                     }
+                    while (Console.ReadKey().Key != ConsoleKey.Enter) ;
                 }
                 else if (choice == 2) // Exit
                 {
