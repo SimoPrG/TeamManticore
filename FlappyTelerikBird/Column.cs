@@ -1,6 +1,7 @@
 ﻿namespace FlappyTelerikBird
 {
     using System;
+    using System.Collections.Generic;
     class Column
     {
         public char[][] array; //this char array represents the column
@@ -68,6 +69,15 @@
 
             this.array = array;
 
+        }
+
+        public static void generateRandomColumn(Random generator, List<Column> columns)
+        {
+            //generate the wall in such a way that the bird can have a chance to go trough the hole in it
+            int holeXCoord = generator.Next(0, Core.DISPLAYHEIGHT - (TelerikBird.HEIGHT + 5));
+            int holeSize = generator.Next(TelerikBird.HEIGHT + 5, Core.DISPLAYHEIGHT - holeXCoord);
+            int columnWidth = Core.DISPLAYWIDTH / 20;
+            columns.Add(new Column(Core.DISPLAYWIDTH - columnWidth, holeXCoord, holeSize, columnWidth, Core.DISPLAYHEIGHT));
         }
     }
 }

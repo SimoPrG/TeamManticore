@@ -83,7 +83,7 @@ namespace FlappyTelerikBird
                 if (--columnTimer <= 0)
                 {
                     columnTimer = difficulty;
-                    generateRandomColumn(generator, columns);
+                    Column.generateRandomColumn(generator, columns);
                 }
 
                 for (int i = 0; i < columns.Count; i++)
@@ -128,15 +128,6 @@ namespace FlappyTelerikBird
 
                 Thread.Sleep(100);
             }
-        }
-
-        private static void generateRandomColumn(Random generator, List<Column>columns)
-        {
-            //generate the wall in such a way that the bird can have a chance to go trough the hole in it
-            int holeXCoord = generator.Next(0, DISPLAYHEIGHT - (TelerikBird.HEIGHT + 5));
-            int holeSize = generator.Next(TelerikBird.HEIGHT + 5, DISPLAYHEIGHT - holeXCoord);
-            int columnWidth = DISPLAYWIDTH / 20;
-            columns.Add(new Column(DISPLAYWIDTH - columnWidth, holeXCoord, holeSize, columnWidth, DISPLAYHEIGHT));
         }
 
         private static int PrintMainMenu(int currentChoice)
