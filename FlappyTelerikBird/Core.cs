@@ -80,6 +80,9 @@ namespace FlappyTelerikBird
             {
                 Console.Clear();
 
+                display.Clear(); // with this two lines we refresh the display StringBuilder
+                display.Append(refreshedDisplay);
+
                 if (--columnTimer <= 0)
                 {
                     columnTimer = difficulty;
@@ -97,28 +100,23 @@ namespace FlappyTelerikBird
                 }
 
                 bird.Flap();
-                WriteBirdInDisplay(bird.array, TelerikBird.HEIGHT, TelerikBird.WIDTH, bird.CoordX, bird.CoordY);
+                WriteBirdInDisplay();
                 Console.Write(display);
-
-                display.Clear(); // with this two lines we refresh the display StringBuilder
-                display.Append(refreshedDisplay);
 
                 if (Console.KeyAvailable) // if the gamer is pressing a key
                
                 {
-                    ConsoleKeyInfo pressedKey;
+                    ConsoleKeyInfo pressedKey = Console.ReadKey(true);
 
-                    pressedKey = Console.ReadKey(true); // read the key
-
-                    if (pressedKey.Key == ConsoleKey.UpArrow)
+                    if (pressedKey.Key == ConsoleKey.UpArrow) //the bird goes up
                     {
                         bird.CoordY--;
                     }
-                    else if (pressedKey.Key == ConsoleKey.DownArrow)
+                    else if (pressedKey.Key == ConsoleKey.DownArrow) // the bird goes down
                     {
                         bird.CoordY++;
                     }
-                    if (pressedKey.Key == ConsoleKey.P)
+                    if (pressedKey.Key == ConsoleKey.P) // pause
                     {
                         while (Console.ReadKey(true).Key != ConsoleKey.P) ;
 
@@ -140,18 +138,18 @@ namespace FlappyTelerikBird
 
             while (true)
             {
-                selector.CoordY = (DISPLAYHEIGHT - MainMenu.HEIGHT) / 2 + currentChoice;
-
                 Console.Clear();
+
+                display.Clear(); // with this two lines we refresh the display StringBuilder
+                display.Append(refreshedDisplay);
+
+                selector.CoordY = (DISPLAYHEIGHT - MainMenu.HEIGHT) / 2 + currentChoice;
 
                 WriteObjectInDisplay(bird.array, TelerikBird.HEIGHT, TelerikBird.WIDTH, bird.CoordX, bird.CoordY);
                 WriteObjectInDisplay(mainMenu.array, MainMenu.HEIGHT, MainMenu.WIDTH, mainMenu.CoordX, mainMenu.CoordY);
                 WriteObjectInDisplay(selector.array, Selector.HEIGHT, Selector.WIDTH, selector.CoordX, selector.CoordY);
 
                 Console.Write(display);
-
-                display.Clear(); // with this two lines we refresh the display StringBuilder
-                display.Append(refreshedDisplay);
 
                 pressedKey = Console.ReadKey(true);
                 if (pressedKey.Key == ConsoleKey.UpArrow)
@@ -184,23 +182,19 @@ namespace FlappyTelerikBird
             }
         }
 
-        //This method puts the bird char array representation in the StringBuilder display
-        // matrix - the char array of the object
-        // HEIGHT and WIDTH - the size of the char array
-        // coordX and coordY - the coordinates of the object
-        private static void WriteBirdInDisplay(char[][] matrix, int HEIGHT, int WIDTH, int coordX, int coordY)
+        private static void WriteBirdInDisplay() // This method writes the current state of the bird in display StringBuilder
         {
-            for (int row = 0; row < HEIGHT; row++)
+            for (int row = 0; row < TelerikBird.HEIGHT; row++)
             {
-                for (int col = 0; col < WIDTH; col++)
+                for (int col = 0; col < TelerikBird.WIDTH; col++)
                 {
-                    if (matrix[row][col] != ' ') // if we have ' ' in the matrix we must not print it
+                    if (bird.array[row][col] != ' ') // if we have ' ' in the matrix we must not print it
                     {
-                        if (coordX >= 0 && coordX <= (DISPLAYWIDTH - TelerikBird.WIDTH) &&
-                            coordY >= 0 && coordY <= (DISPLAYHEIGHT - TelerikBird.HEIGHT) &&
-                            !CheckForColision(display[(row + coordY) * DISPLAYWIDTH + (col + coordX)])) //we didn't crash
+                        if (bird.CoordX >= 0 && bird.CoordX <= (DISPLAYWIDTH - TelerikBird.WIDTH) &&
+                            bird.CoordY >= 0 && bird.CoordY <= (DISPLAYHEIGHT - TelerikBird.HEIGHT) &&
+                            !IsSmashed(display[(row + bird.CoordY) * DISPLAYWIDTH + (col + bird.CoordX)])) //we didn't crash
                         {
-                            display[(row + coordY) * DISPLAYWIDTH + (col + coordX)] = matrix[row][col];
+                            display[(row + bird.CoordY) * DISPLAYWIDTH + (col + bird.CoordX)] = bird.array[row][col];
                         }
                         else // we crashed
                         {
@@ -212,7 +206,7 @@ namespace FlappyTelerikBird
         }
 
         // This method checks if some part of the bird has hit something
-        private static bool CheckForColision(char symbol)
+        private static bool IsSmashed(char symbol)
         {
             if (symbol == ' ')
             {
