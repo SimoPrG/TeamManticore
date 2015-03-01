@@ -41,7 +41,7 @@ namespace FlappyTelerikBird
                 choice = PrintMainMenu(choice);
 
                 if (choice == 0) // Play
-                    //TODO: Think how to separate the play in a different method most approprietly
+                //TODO: Think how to separate the play in a different method most approprietly
                 {
                     ConsoleKeyInfo pressedKey;
 
@@ -56,7 +56,7 @@ namespace FlappyTelerikBird
                         if (--columnTimer <= 0)
                         {
                             columnTimer = difficulty;
-                            columns.Add(new Column(DISPLAYWIDTH - Column.WIDTH, 1, 20)); // TODO: make it random, use Random generator from above
+                            generateRandomColumn(generator, columns);
                         }
 
                         for (int i = 0; i < columns.Count; i++)
@@ -66,7 +66,7 @@ namespace FlappyTelerikBird
                                 columns.RemoveAt(i);
                             }
                             columns[i].CoordX--;
-                            WriteObjectInDisplay(columns[i].array, Column.HEIGHT, Column.WIDTH, columns[i].CoordX, columns[i].CoordY);
+                            WriteObjectInDisplay(columns[i].array, columns[i].Hight, columns[i].Width, columns[i].CoordX, columns[i].CoordY);
                         }
 
                         bird.Flap();
@@ -77,7 +77,7 @@ namespace FlappyTelerikBird
                         display.Append(refreshedDisplay);
 
                         if (Console.KeyAvailable) // if the gamer is pressing a key
-                            //TODO: Add ESC for quit and P for pause
+                        //TODO: Add ESC for quit and P for pause
                         {
                             pressedKey = Console.ReadKey(true); // read the key
 
@@ -104,6 +104,15 @@ namespace FlappyTelerikBird
                     return;
                 }
             }
+        }
+
+        private static void generateRandomColumn(Random generator, List<Column>columns)
+        {
+            //generate the wall in such a way that the bird can have a chance to go trough the hole in it
+            int holeXCoord = generator.Next(0, DISPLAYHEIGHT - (TelerikBird.HEIGHT + 5));
+            int holeSize = generator.Next(TelerikBird.HEIGHT + 5, DISPLAYHEIGHT - holeXCoord);
+            int columnWidth = DISPLAYWIDTH / 20;
+            columns.Add(new Column(DISPLAYWIDTH - columnWidth, holeXCoord, holeSize, columnWidth, DISPLAYHEIGHT));
         }
 
         private static int PrintMainMenu(int currentChoice)
