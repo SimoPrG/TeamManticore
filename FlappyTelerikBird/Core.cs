@@ -14,10 +14,11 @@ namespace FlappyTelerikBird
     using System.Collections.Generic;
     using System.Text;
     using System.Threading;
+    using System.IO;
     class Core
     {
-        private const int DISPLAYHEIGHT = 50;
-        private const int DISPLAYWIDTH = 120;
+        public const int DISPLAYHEIGHT = 50;
+        public const int DISPLAYWIDTH = 120;
 
         private static string refreshedDisplay = new string(' ', DISPLAYHEIGHT * DISPLAYWIDTH - 1);
         private static StringBuilder display = new StringBuilder(refreshedDisplay);
@@ -52,6 +53,20 @@ namespace FlappyTelerikBird
                 else if (choice == 1) // High Scores
                 {
                     //TODO: Implement - there is a class HighScores for the purpose
+                    string highScoresFile = @"HighScores.txt";
+                    //TODO: Implement - there is a class HighScores for the purpose
+                    try
+                    {
+                        HighScores.PrintHighScores(highScoresFile);
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        Console.Clear();
+                        Console.SetCursorPosition(DISPLAYWIDTH / 3, DISPLAYHEIGHT / 5);
+                        Console.WriteLine("There are no High Scores recorded!");
+                        //System.Threading.Thread.Sleep(99999);
+                        return;
+                    }
                 }
                 else if (choice == 2) // Exit
                 {
@@ -207,6 +222,17 @@ namespace FlappyTelerikBird
             {
                 return true;
             }
+        }
+        private static void WriteInFile(int score)
+        {
+            string scoreS = score.ToString();
+            Console.WriteLine();
+            Console.Write("Enter your name: ");
+            string name = Console.ReadLine();
+
+            StreamWriter writer = new StreamWriter(HighScores.highScoresFile, true);
+            writer.WriteLine("{0}:{1}", score, name);
+            writer.Close();
         }
     }
 }
