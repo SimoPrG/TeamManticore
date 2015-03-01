@@ -39,6 +39,8 @@
             }
         }
 
+        public bool IsAlive { get; set; }
+
         public TelerikBird(int xCoordinate, int yCoordinate) //bird constructor
         {
             array[0] = wingsTopFlap.ToCharArray();
@@ -48,6 +50,7 @@
             isFlap = true;
             CoordX = xCoordinate;
             CoordY = yCoordinate;
+            IsAlive = true;
         }
 
         private bool isFlap; // this bool is used to make the bird to flap.
@@ -64,6 +67,22 @@
                 array[0] = wingsTopFlap.ToCharArray();
                 array[1] = wingsBottomFlap.ToCharArray();
                 isFlap = true;
+            }
+        }
+
+        public void KillBird()
+        {
+            IsAlive = false;
+        }
+
+        public void ResurrectBird()
+        {
+            CoordX = Core.DISPLAYWIDTH / 12;
+            CoordY = (Core.DISPLAYHEIGHT - HEIGHT) / 2 - 1;
+            IsAlive = true;
+            if (!isFlap)
+            {
+                Flap();
             }
         }
     }

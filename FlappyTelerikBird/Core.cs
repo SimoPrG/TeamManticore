@@ -37,6 +37,8 @@ namespace FlappyTelerikBird
 
             while (true)
             {
+                bird.ResurrectBird();
+
                 choice = PrintMainMenu(choice);
 
                 if (choice == 0) // Play
@@ -101,6 +103,10 @@ namespace FlappyTelerikBird
 
                 bird.Flap();
                 WriteBirdInDisplay();
+                if (bird.IsAlive == false)
+                {
+                    return;
+                }
                 Console.Write(display);
 
                 if (Console.KeyAvailable) // if the gamer is pressing a key
@@ -192,7 +198,7 @@ namespace FlappyTelerikBird
                     {
                         if (IsBirdSmashed(row, col)) // the bird crashes
                         {
-                            //TODO: Implement Crash method
+                            bird.KillBird();
                         }
                         else // the bird didn't crash
                         {
@@ -217,6 +223,7 @@ namespace FlappyTelerikBird
                 return true;
             }
         }
+
         private static void WriteInFile(int score)
         {
             string scoreS = score.ToString();
