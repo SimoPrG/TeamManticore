@@ -104,6 +104,11 @@ namespace FlappyTelerikBird
                     {
                         bird.CoordY++;
                     }
+                    if (pressedKey.Key == ConsoleKey.P)
+                    {
+                        while (Console.ReadKey(true).Key != ConsoleKey.P) ;
+
+                    }
                 }
                 while (Console.KeyAvailable) Console.ReadKey(true); // free the keyboard buffer
 
