@@ -83,7 +83,7 @@ namespace FlappyTelerikBird
                 if (--columnTimer <= 0)
                 {
                     columnTimer = difficulty;
-                    generateRandomColumn(generator, columns); // TODO: make it random, use Random generator from above
+                    generateRandomColumn(generator, columns);
                 }
 
                 for (int i = 0; i < columns.Count; i++)
@@ -205,8 +205,9 @@ namespace FlappyTelerikBird
                 {
                     if (matrix[row][col] != ' ') // if we have ' ' in the matrix we must not print it
                     {
-                        /*TODO: think for condition when the bird is outside the display StringBuilder*/
-                        if (!CheckForColision(display[(row + coordY) * DISPLAYWIDTH + (col + coordX)])) //we didn't crash
+                        if (coordX >= 0 && coordX <= (DISPLAYWIDTH - TelerikBird.WIDTH) &&
+                            coordY >= 0 && coordY <= (DISPLAYHEIGHT - TelerikBird.HEIGHT) &&
+                            !CheckForColision(display[(row + coordY) * DISPLAYWIDTH + (col + coordX)])) //we didn't crash
                         {
                             display[(row + coordY) * DISPLAYWIDTH + (col + coordX)] = matrix[row][col];
                         }
