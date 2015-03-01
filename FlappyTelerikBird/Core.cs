@@ -105,7 +105,7 @@ namespace FlappyTelerikBird
                 display.Append(refreshedDisplay);
 
                 if (Console.KeyAvailable) // if the gamer is pressing a key
-                //TODO: Add ESC for quit and P for pause
+               
                 {
                     ConsoleKeyInfo pressedKey;
 
