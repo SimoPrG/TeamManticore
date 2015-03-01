@@ -42,10 +42,8 @@ namespace FlappyTelerikBird
                 if (choice == 0) // Play
                 {
                     int difficulty = 30; // the smaller the harder
-                    int columnTimer = 0; // this timer decreeses at each iteration. at zero it is set to difficulty and a new column apears                    
-                    List<Column> columns = new List<Column>();
 
-                    Play(columnTimer, difficulty, columns);
+                    Play(difficulty);
                    
                 }
                 else if (choice == 1) // High Scores
@@ -72,9 +70,12 @@ namespace FlappyTelerikBird
             }
         }
 
-        private static void Play(int columnTimer, int difficulty, List<Column> columns)
+        private static void Play(int difficulty)
         {
+            List<Column> columns = new List<Column>();
             Random generator = new Random();
+            int columnTimer = 0; // this timer decreeses at each iteration. at zero it is set to difficulty and a new column apears
+
             while (true)
             {
                 Console.Clear();
