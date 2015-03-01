@@ -41,59 +41,13 @@ namespace FlappyTelerikBird
                 choice = PrintMainMenu(choice);
 
                 if (choice == 0) // Play
-                    //TODO: Think how to separate the play in a different method most approprietly
                 {
-                    ConsoleKeyInfo pressedKey;
-
                     int difficulty = 30; // the smaller the harder
-                    int columnTimer = 0; // this timer decreeses at each iteration. at zero it is set to difficulty and a new column apears
+                    int columnTimer = 0; // this timer decreeses at each iteration. at zero it is set to difficulty and a new column apears                    
                     List<Column> columns = new List<Column>();
 
-                    while (true)
-                    {
-                        Console.Clear();
-
-                        if (--columnTimer <= 0)
-                        {
-                            columnTimer = difficulty;
-                            columns.Add(new Column(DISPLAYWIDTH - Column.WIDTH, 1, 20)); // TODO: make it random, use Random generator from above
-                        }
-
-                        for (int i = 0; i < columns.Count; i++)
-                        {
-                            if (columns[i].CoordX <= 0)
-                            {
-                                columns.RemoveAt(i);
-                            }
-                            columns[i].CoordX--;
-                            WriteObjectInDisplay(columns[i].array, Column.HEIGHT, Column.WIDTH, columns[i].CoordX, columns[i].CoordY);
-                        }
-
-                        bird.Flap();
-                        WriteBirdInDisplay(bird.array, TelerikBird.HEIGHT, TelerikBird.WIDTH, bird.CoordX, bird.CoordY);
-                        Console.Write(display);
-
-                        display.Clear(); // with this two lines we refresh the display StringBuilder
-                        display.Append(refreshedDisplay);
-
-                        if (Console.KeyAvailable) // if the gamer is pressing a key
-                            //TODO: Add ESC for quit and P for pause
-                        {
-                            pressedKey = Console.ReadKey(true); // read the key
-
-                            if (pressedKey.Key == ConsoleKey.UpArrow)
-                            {
-                                bird.CoordY--;
-                            }
-                            else if (pressedKey.Key == ConsoleKey.DownArrow)
-                            {
-                                bird.CoordY++;
-                            }
-                        }
-                        while (Console.KeyAvailable) Console.ReadKey(true); // free the keyboard buffer
-
-                        Thread.Sleep(100);
-                    }
+                    Play(columnTimer, difficulty, columns);
+                   
                 }
                 else if (choice == 1) // High Scores
                 {
@@ -103,6 +57,57 @@ namespace FlappyTelerikBird
                 {
                     return;
                 }
+            }
+        }
+
+        private static void Play(int columnTimer, int difficulty, List<Column> columns)
+        {
+            while (true)
+            {
+                Console.Clear();
+
+                if (--columnTimer <= 0)
+                {
+                    columnTimer = difficulty;
+                    columns.Add(new Column(DISPLAYWIDTH - Column.WIDTH, 1, 20)); // TODO: make it random, use Random generator from above
+                }
+
+                for (int i = 0; i < columns.Count; i++)
+                {
+                    if (columns[i].CoordX <= 0)
+                    {
+                        columns.RemoveAt(i);
+                    }
+                    columns[i].CoordX--;
+                    WriteObjectInDisplay(columns[i].array, Column.HEIGHT, Column.WIDTH, columns[i].CoordX, columns[i].CoordY);
+                }
+
+                bird.Flap();
+                WriteBirdInDisplay(bird.array, TelerikBird.HEIGHT, TelerikBird.WIDTH, bird.CoordX, bird.CoordY);
+                Console.Write(display);
+
+                display.Clear(); // with this two lines we refresh the display StringBuilder
+                display.Append(refreshedDisplay);
+
+                if (Console.KeyAvailable) // if the gamer is pressing a key
+                //TODO: Add ESC for quit and P for pause
+                {
+                    ConsoleKeyInfo pressedKey;
+
+                    pressedKey = Console.ReadKey(true); // read the key
+
+                    if (pressedKey.Key == ConsoleKey.UpArrow)
+                    {
+                        bird.CoordY--;
+                    }
+                    else if (pressedKey.Key == ConsoleKey.DownArrow)
+                    {
+                        bird.CoordY++;
+                    }
+                }
+                while (Console.KeyAvailable) Console.ReadKey(true); // free the keyboard buffer
+
+                Thread.Sleep(100);
             }
         }
 
