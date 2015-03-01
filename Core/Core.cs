@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 using System.IO;
 
 
-namespace FlappyManticore
+namespace FlappyTelerikBird
 {
     class Core
     {
@@ -108,7 +108,7 @@ namespace FlappyManticore
 
                     try
                     {
-                        string fileName = @"..\..\..\test.txt";
+                        string fileName = @"..\..\..\.txt";
                         StreamReader reader = new StreamReader(fileName);
                         //using (StreamReader sr = new StreamReader(fileName))
                         using (reader)
@@ -130,6 +130,10 @@ namespace FlappyManticore
                     {
                         Console.WriteLine("There are no High Scores recorded!");
                         System.Threading.Thread.Sleep(99999);
+                    }
+                    finally
+                    {
+                        
                     }
                     break;
 
