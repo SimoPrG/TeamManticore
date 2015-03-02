@@ -46,11 +46,9 @@ namespace FlappyTelerikBird
                     long score = Play();
                     ScoresHelper.PrintPlayerResultOnConsole(score);
                     ScoresHelper.SavePlayerRsultInFile(score);
-                    //TODO: use score to write in highscores
                 }
                 else if (choice == 1) // High Scores
                 {
-                    //TODO: Implement - there is a class HighScores for the purpose
                     Console.Clear();
                     List<List<string>> highScoresList = new List<List<string>>();
                     ScoresHelper.PrintHighestScoresOnConsole();
@@ -103,7 +101,7 @@ namespace FlappyTelerikBird
                 scored[0] = string.Format("Score: {0}", score).ToCharArray();
                 WriteObjectInDisplay(scored, 1, scored[0].Length, 0, DISPLAYHEIGHT - 1);
 
-                //controll if the bird is squished save score and return to main menu
+                //controll if the bird is squished and return score
                 bird.Flap();
                 WriteBirdInDisplay();
                 if (bird.IsAlive == false)

@@ -20,14 +20,7 @@
             }
             set
             {
-                if (value >= 0)
-                {
-                    this.coordX = value;
-                }
-                else
-                {
-                    throw new ArgumentOutOfRangeException("CoordX cannot be set to negative!");
-                }
+                this.coordX = value;
             }
         }
 

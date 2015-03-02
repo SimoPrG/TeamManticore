@@ -38,14 +38,7 @@
             }
             set
             {
-                if (value >= 0)
-                {
-                    this.coordY = value;
-                }
-                else
-                {
-                    throw new ArgumentOutOfRangeException("CoordY cannot be set to negative!");
-                }
+                this.coordY = value;
             }
         }
 
