@@ -82,7 +82,6 @@
                 Console.SetCursorPosition(Core.DISPLAYWIDTH / 2 - resultWarning.Length / 2, Core.DISPLAYHEIGHT / 2 + 2);
                 Console.Write(resultWarning);
             }
-            Console.ReadKey();
         }
 
         // save result on the proper place - highest result should be saved on highest position; only the first 10 playses are saved

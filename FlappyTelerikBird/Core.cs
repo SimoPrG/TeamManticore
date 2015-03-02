@@ -15,6 +15,7 @@ namespace FlappyTelerikBird
     using System.Text;
     using System.Threading;
     using System.IO;
+    using System.Media;
     class Core
     {
         public const int DISPLAYHEIGHT = 50;
@@ -57,7 +58,7 @@ namespace FlappyTelerikBird
                 }
                 else if (choice == 2) 
                 {
-                    Environment.Exit(0);
+                    return;
                 }
             }
         }
@@ -69,7 +70,9 @@ namespace FlappyTelerikBird
             long score = 0;
             List<Column> columns = new List<Column>();
             Random generator = new Random();
-
+            var musicPlayr = new SoundPlayer();
+            musicPlayr.SoundLocation = @"..\..\resourses\NatureAmbiance.wav";
+            musicPlayr.PlayLooping();
             while (true)
             {
                 Console.Clear();
@@ -106,6 +109,8 @@ namespace FlappyTelerikBird
                 WriteBirdInDisplay();
                 if (bird.IsAlive == false)
                 {
+                    musicPlayr.SoundLocation = @"..\..\resourses\BalloonPopping.wav";
+                    musicPlayr.Play();
                     return score; 
                 }
                 Console.Write(display);
