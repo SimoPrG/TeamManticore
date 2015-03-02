@@ -44,8 +44,25 @@ namespace FlappyTelerikBird
                 if (choice == 0) // Play
                 {
                     long score = Play();
+
                     ScoresHelper.PrintPlayerResultOnConsole(score);
-                    ScoresHelper.SavePlayerRsultInFile(score);
+
+                    try
+                    {
+                        ScoresHelper.SavePlayerRsultInFile(score);
+                    }
+                    catch (IOException)
+                    {
+                        Console.Clear();
+                        Console.SetCursorPosition(Core.DISPLAYWIDTH / 3, Core.DISPLAYHEIGHT / 5);
+                        Console.WriteLine("Your score will be lost due to technical problem :(");
+                    }
+                    catch(UnauthorizedAccessException)
+                    {
+                        Console.Clear();
+                        Console.SetCursorPosition(Core.DISPLAYWIDTH / 3, Core.DISPLAYHEIGHT / 5);
+                        Console.WriteLine("Your account doesn't have permissions to record the score :(");
+                    }
                 }
                 else if (choice == 1) // High Scores
                 {

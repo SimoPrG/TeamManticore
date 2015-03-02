@@ -7,8 +7,8 @@
 
     class ScoresHelper
     {
-        public static string highScoresFile = @"HighScores.txt";
-        public static int bestResultscount = 10;
+        private static string highScoresFile = @"HighScores.txt";
+        private static int bestResultscount = 10;
 
         public static void PrintHighestScoresOnConsole()
         {
