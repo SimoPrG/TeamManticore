@@ -104,7 +104,7 @@ namespace FlappyTelerikBird
                 scored[0] = string.Format("Score: {0}", score).ToCharArray();
                 WriteObjectInDisplay(scored, 1, scored[0].Length, 0, DISPLAYHEIGHT - 1);
 
-                //controll if the bird is squished save score and return to main menu
+                //controll if the bird is squished and return score
                 bird.Flap();
                 WriteBirdInDisplay();
                 if (bird.IsAlive == false)
