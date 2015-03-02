@@ -43,7 +43,9 @@ namespace FlappyTelerikBird
 
                 if (choice == 0) // Play
                 {
-                    Play();
+                    long score = Play();
+                    ScoresHelper.PrintPlayerResultOnConsole(score);
+                    ScoresHelper.SavePlayerRsultInFile(score);
                     //TODO: use score to write in highscores
                 }
                 else if (choice == 1) // High Scores
@@ -106,9 +108,7 @@ namespace FlappyTelerikBird
                 WriteBirdInDisplay();
                 if (bird.IsAlive == false)
                 {
-                    ScoresHelper.PrintPlayerResultOnConsole(score);
-                    ScoresHelper.SavePlayerRsultInFile(score);
-                    Main();
+                    return score;
                 }
                 Console.Write(display);
 
