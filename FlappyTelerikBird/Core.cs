@@ -43,28 +43,21 @@ namespace FlappyTelerikBird
 
                 if (choice == 0) // Play
                 {
-                    long score = Play();
+                    Play();
                     //TODO: use score to write in highscores
                 }
                 else if (choice == 1) // High Scores
                 {
                     //TODO: Implement - there is a class HighScores for the purpose
-                    string highScoresFile = @"HighScores.txt";
-                    try
-                    {
-                        HighScores.PrintHighScores(highScoresFile);
-                    }
-                    catch (FileNotFoundException)
-                    {
-                        Console.Clear();
-                        Console.SetCursorPosition(DISPLAYWIDTH / 3, DISPLAYHEIGHT / 5);
-                        Console.WriteLine("There are no High Scores recorded!");
-                    }
+                    Console.Clear();
+                    List<List<string>> highScoresList = new List<List<string>>();
+                    ScoresHelper.PrintHighestScoresOnConsole();
+
                     while (Console.ReadKey().Key != ConsoleKey.Enter) ;
                 }
                 else if (choice == 2) // Exit
                 {
-                    return;
+                    Environment.Exit(0);
                 }
             }
         }
@@ -84,12 +77,14 @@ namespace FlappyTelerikBird
                 display.Clear(); // with this two lines we refresh the display StringBuilder
                 display.Append(refreshedDisplay);
 
+                //generate new column if needed
                 if (--columnTimer <= 0)
                 {
                     columnTimer = difficulty;
                     Column.generateRandomColumn(generator, columns);
                 }
 
+                //move all columns left
                 for (int i = 0; i < columns.Count; i++)
                 {
                     if (columns[i].CoordX <= 0)
@@ -106,16 +101,19 @@ namespace FlappyTelerikBird
                 scored[0] = string.Format("Score: {0}", score).ToCharArray();
                 WriteObjectInDisplay(scored, 1, scored[0].Length, 0, DISPLAYHEIGHT - 1);
 
+                //controll if the bird is squished save score and return to main menu
                 bird.Flap();
                 WriteBirdInDisplay();
                 if (bird.IsAlive == false)
                 {
-                    return score;
+                    ScoresHelper.PrintPlayerResultOnConsole(score);
+                    ScoresHelper.SavePlayerRsultInFile(score);
+                    Main();
                 }
                 Console.Write(display);
 
+                //process player input
                 if (Console.KeyAvailable) // if the gamer is pressing a key
-               
                 {
                     ConsoleKeyInfo pressedKey = Console.ReadKey(true);
 
@@ -227,18 +225,6 @@ namespace FlappyTelerikBird
             {
                 return true;
             }
-        }
-
-        private static void WriteInFile(int score)
-        {
-            string scoreS = score.ToString();
-            Console.WriteLine();
-            Console.Write("Enter your name: ");
-            string name = Console.ReadLine();
-
-            StreamWriter writer = new StreamWriter(HighScores.highScoresFile, true);
-            writer.WriteLine("{0}:{1}", score, name);
-            writer.Close();
         }
     }
 }
