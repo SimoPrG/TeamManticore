@@ -9,8 +9,6 @@ The coolest game ever invented by Team Manticore!
 
 Тома Маринов - Savage
 
-Павел Атанасов - MakeMyDay
-
 Петър Стойнов - Petar_Morgan
 
 Николай Диманов - dimanov
@@ -32,8 +30,9 @@ Flappy Bird is a side-scrolling mobile game featuring 2D retro style graphics. T
 
 There is no variation or evolution in gameplay throughout the game as the pipes always have the same gap between them and there is no end to the running track, having only the flap and ding sounds and the rising score as rewards.
 
+In our project we've decided the bird not to fall due to gravity. The bird is controlled by two keys from the keyboard.
 The game consists of: Start screen menu where the player can choose : to start playing, to see hight scores or to exit.
-When you choose-->start the game begins. Move the bird using the arrow keys for UP and DOWN. Your task is to escape the columns. If you touch column the game ends.You can see your current score on the left down corner of the screen.
+When you choose-->start the game begins. Move the bird using the arrow keys for UP and DOWN. Your task is to escape the columns.You can see your current score on the left down corner of the screen. If you touch column the game ends.
 
 
 #GitHub Repository URL:
